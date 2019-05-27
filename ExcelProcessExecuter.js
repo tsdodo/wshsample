@@ -3,9 +3,9 @@
  * 
  * @constructor
  * @classdesc 指定されたフォルダのExcelを開いて処理を実行します。
- * @param {function(ExcelProcessExecuter,WorkBooks)} preProcessSheet　シート処理前の処理関数
- * @param {function(ExcelProcessExecuter,WorkBooks,WorkSheets)} processSheet　シート毎の処理関数
- * @param {function(ExcelProcessExecuter,WorkBooks)} postProcessSheet　シート処理後の処理関数
+ * @param {function(ExcelProcessExecuter,WorkBooks)} preProcessSheet シート処理前の処理関数
+ * @param {function(ExcelProcessExecuter,WorkBooks,WorkSheets)} processSheet シート毎の処理関数
+ * @param {function(ExcelProcessExecuter,WorkBooks)} postProcessSheet シート処理後の処理関数
  * @param {boolean} saveFlg 開いたファイルを保存するかどうかのフラグ
  */
 function ExcelProcessExecuter(preProcessSheet,processSheet,postProcessSheet,saveFlg){
