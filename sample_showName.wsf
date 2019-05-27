@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package>
+    <job>
+    <?job error="True" debug="True" ?>
+        <runtime/>
+        <script language="JScript" src="./ExcelProcessExecuter.js"/>
+        <script language="JScript">
+            <![CDATA[
+                /*
+                 *指定したフォルダ内のエクセルファイルを開いてA1にカーソル
+                 *をあてて保存しなおします。
+                 */
+                try {
+                    //A1にセットするようにインスタンスを生成
+                    var executer = new ExcelProcessExecuter(
+                        //前処理 (ブック名表示）
+                        function(self,book){
+                        	self.sheetCount = 0;
+                        	WScript.Echo ("ファイル名:" + book.name);
+                        },
+                        //シート毎処理（シート名表示）
+                        function(self,book,sheet){
+                        	WScript.Echo ("シート名:" + sheet.name);
+                        	self.sheetCount++;
+                        },
+                        //後処理
+                        function(self,book){
+                        	WScript.Echo (book.name +"のシート数:" + self.sheetCount);                        
+                        },
+                        //カウントだけなので保存しない。
+                        false
+                        );
+                        
+                    //カウントを定義
+                    executer.sheetCount = 0;
+                
+                    //ダイアログでフォルダを選択して実行
+                    executer.doProcessByDialog();
+
+                    WScript.Echo ("処理が終了しました。" 
+                        +"正常：" + executer.nCnt + "件" 
+                        +"エラー：" + executer.eCnt + "件" 
+                        + executer.errMsg);
+
+                } finally {
+                    //excel終了
+                    if (executer != null){
+                        executer.quit();
+                    }
+                }
+            ]]>
+        </script>
+    </job>
+</package>

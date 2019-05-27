@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package>
+    <job>
+    <?job error="True" debug="True" ?>
+        <runtime/>
+        <script language="JScript" src="./ExcelProcessExecuter.js"/>
+        <script language="JScript">
+            <![CDATA[
+                /*
+                 *指定したフォルダ内のエクセルファイルを開いてA1にカーソル
+                 *をあてて保存しなおします。
+                 */
+                try {
+                    //A1にセットするようにインスタンスを生成
+                    var executer = new ExcelProcessExecuter(
+                        //前処理
+                        function(self,book){},
+                        //シート毎処理（A1に設定）
+                        function(self,book,sheet){
+                            sheet.Activate();
+                            sheet.Range("A1").Select();
+                        },
+                        //後処理（先頭のシート選択）
+                        function(self,book){
+                            book.WorkSheets(1).Activate();
+                        });
+                
+                    //ダイアログでフォルダを選択して実行
+                    executer.doProcessByDialog();
+
+                    WScript.Echo ("処理が終了しました。" 
+                        +"正常：" + executer.nCnt + "件" 
+                        +"エラー：" + executer.eCnt + "件" 
+                        + executer.errMsg);
+
+                } finally {
+                    //excel終了
+                    if (executer != null){
+                        executer.quit();
+                    }
+                }
+            ]]>
+        </script>
+    </job>
+</package>
